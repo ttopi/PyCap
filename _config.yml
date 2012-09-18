@@ -1,0 +1,13 @@
+baseurl: /
+permalink: pretty
+pygments: true
+lsi: false
+safe: false
+
+navigation:
+- text: Home
+  url:
+- text: Docs
+  url: docs/
+- text: Patterns
+  url: patterns/
