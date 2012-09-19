@@ -1,4 +1,5 @@
 baseurl: http://sburns.github.com/PyCap/
+# baseurl: /
 permalink: pretty
 pygments: true
 lsi: false

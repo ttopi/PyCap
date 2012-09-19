@@ -7,34 +7,35 @@ PyCap (*Python and REDCap*) is a simple library for communicating with [REDCap][
 
 ## Getting started
 
-To begin, you'll need access to a REDCap server, a project within that server, and an API key for this project, which can be obtained from your REDCap administrator.
+To begin, you'll need access to a REDCap server, a project within that server, and an API key for said project which can be obtained from your REDCap administrator.
 
 {% highlight python %}
 from redcap import Project
-
-api_url = 'https://redcap.vanderbilt.edu/api/'
+api_url = 'https://redcap.example.edu/api/'
 api_key = 'SomeSuperSecretAPIKeyThatNobodyElseShouldHave'
 project = Project(api_url, api_key)
-
 {% endhighlight %}
 
-Some helpful API calls occurs during project creation:
+Some helpful API calls occur during project creation:
 
 {% highlight python %}
 # Primary field, REDCap calls this the unique field
-project.def_field
-
+print project.def_field
+id
 # A list of raw field names...
-project.field_names
+print project.field_names
+('id', 'age_at_testing', 'dob', 'test1_ss', ...)
 # ...and their labels
-project.field_labels
+print project.field_labels
+('Identifier', 'Age at Day of Testing', 'Date of Birth', 'Test 1 Standard Score',...)
 
 # List of forms
-project.forms
+print project.forms
+('demographics', 'test_1', ...)
 
 # If this is a longitudinal database...
-project.events, project.arm_nums, project.arm_names
-
+print project.events, project.arm_nums, project.arm_names
+('event1', 'event2',...), ('arm1', 'arm2',...), ('Visit1', 'Visit2',...)
 {% endhighlight %}
 
 The two most useful functions of the `project` object are `.export_records` and `.import_records`:
@@ -65,11 +66,14 @@ Or download the package from github (see buttons below) and:
     $ < unzip/untar >
     $ python setup.py install
 
-Or clone the repo and install:
+Or to use the most up-to-date codebase, which hopefully isn't broken:
 
     $ git clone git://github.com/sburns/PyCap.git
     $ cd PyCap
     $ python setup.py install
 
+    OR
+
+    $ pip install -e git+git@github.com:sburns/PyCap.git@master#eqq=PyCap
 
 [r]: http://project-redcap.org
