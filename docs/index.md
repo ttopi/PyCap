@@ -21,7 +21,7 @@ API Keys are effectively your username and password for a particular project.
 If you have read/write access to a project (which is most likely),
 anyone with your redcap URL (public knowledge) and your API key has read/write access.
 
-Since REDCap projects often used to store Personal Health Information (PHI), it is of the **utmost importance** to:
+Since REDCap projects are often used to store Personal Health Information (PHI), it is of the **utmost importance** to:
 
 1. **Never share your API key**
 2. **Delete the key (through the web interface) after you're done using it **
