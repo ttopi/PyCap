@@ -19,7 +19,15 @@ df = pd.read_csv(csv_buffer, index_col=project.def_field)
 
 {% endhighlight %}
 
+As of PyCap 0.6, you can more easily make `pandas.DataFrame` objects:
 
+{% highlight python %}
+
+project = Project(URL, API)
+data_df = project.export_records(format='df')
+metadata_df = project.export_metadata(format='df')
+
+{% endhighlight%}
 
 
 [pd]: http://pandas.pydata.org/

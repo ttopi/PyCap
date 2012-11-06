@@ -61,6 +61,9 @@ Every `Project` object has an attribute named `metadata`. This is a list of `dic
 - `identifier`:
 - `text_validation_max`: Maximum value for validation
 
+You can export the metadata on your own using the `.export_metadata` method on
+`Project` objects.
+
 # Exporting Data
 
 Exporting data is very easy with PyCap.
@@ -104,6 +107,9 @@ data = project.export_records(raw_or_label='label')
 # You can also get the data in different formats
 csv_data = project.export_records(format='csv') # or format='xml'
 
+# As of PyCap 0.6, you can create a pandas.DataFrame
+data_frame = project.export_records(format='df')
+
 {% endhighlight %}
 
 Previously, PyCap enforced a strict intersection between the passed `fields` and `project.field_names` but that requirement was dropped in PyCap v0.5.
@@ -113,7 +119,6 @@ non_fields = ['foo', 'bar', 'bat']
 response = project.export_records(fields=non_fields)
 # response will contain dicts with only the def_field
 {% endhighlight %}
-
 
 # Importing Data
 
