@@ -109,7 +109,8 @@ csv_data = project.export_records(format='csv') # or format='xml'
 
 # As of PyCap 0.6, you can create a pandas.DataFrame
 data_frame = project.export_records(format='df')
-
+# As of 0.6.1, df_kwargs is passed to the pandas.read_csv DataFrame constructor
+other_df = project.export_records(format='df', df_kwargs={'index_col': project.field_names[1]})
 {% endhighlight %}
 
 Previously, PyCap enforced a strict intersection between the passed `fields` and `project.field_names` but that requirement was dropped in PyCap v0.5.

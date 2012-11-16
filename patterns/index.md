@@ -29,5 +29,8 @@ metadata_df = project.export_metadata(format='df')
 
 {% endhighlight%}
 
+As of PyCap 0.6.1, you can pass `df_kwargs` a dictionary to alter the construction of
+the DataFrame. This dict is fed into the [pandas.read_csv][csv] method.
 
 [pd]: http://pandas.pydata.org/
+[csv]: http://pandas.pydata.org/pandas-docs/stable/generated/pandas.io.parsers.read_csv.html#pandas.io.parsers.read_csv
