@@ -138,3 +138,34 @@ response = project.import_records(data)
 {% endhighlight %}
 
 Imported data must be a list of `dicts`. While data can be exported in csv and xml formats, PyCap can only import an in-memory data structure.
+
+# Exporting/Importing Files
+
+As of PyCap 0.7, you can download files in a REDCap project (exporting) and upload local files (import) to a REDCap project.
+
+Note, unlike exporting and importing data, exporting and importing files can only be done for a single record at a time.
+
+Generally, you will be given bytes from the file export method so binary-formatted can be written properly and are expected to pass an open file object for file importing. Of course, you should open a file you wish to import with a well-chosen mode.
+
+{% highlight python %}
+
+file_content, headers = project.export_field(record='1', field='file')
+# Note, you may want to change the mode in which you're opening files
+# based on the header['name'] value, but that is completely up to you.
+with open(headers['name'], 'w') as f:
+    f.write(file_content)
+
+
+existing_fname = 'to_upload.pdf'
+fobj = open(existing_fname, 'rb')
+field = 'data_file'
+# In the REDCap UI, the link to download the file will be named the fname you pass
+response = project.import_file(record='1', field=field, fname=existing_fname, fobj=fobj)
+f.close()
+# Generally, the REDCap server will return an emtpy response for successful imports, but its always good to make sure
+assert 'error' not in response
+
+# Attempting to import a file to a non-file field will raise a ValueError quickly
+project.import_file(record='1', field='numeric_field', fname, fobj)
+
+{% endhighlight %}
