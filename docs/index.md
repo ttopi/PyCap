@@ -149,7 +149,7 @@ Generally, you will be given bytes from the file export method so binary-formatt
 
 {% highlight python %}
 
-file_content, headers = project.export_field(record='1', field='file')
+file_content, headers = project.export_file(record='1', field='file')
 # Note, you may want to change the mode in which you're opening files
 # based on the header['name'] value, but that is completely up to you.
 with open(headers['name'], 'w') as f:
