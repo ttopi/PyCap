@@ -7,7 +7,7 @@ layout: default
 The main class of PyCap is `redcap.Project`. It must be instantiated with the API URL of your REDCap site and a API token.
 
 {% highlight python %}
-from redcap import Project
+from redcap import Project, RedcapError
 URL = 'https://redcap.example.com/api/'
 API_KEY = 'ExampleKey'
 
@@ -139,33 +139,86 @@ response = project.import_records(data)
 
 Imported data must be a list of `dicts`. While data can be exported in csv and xml formats, PyCap can only import an in-memory data structure.
 
-# Exporting/Importing Files
+# Exporting/Importing/Deleting Files
 
-As of PyCap 0.7, you can download files in a REDCap project (exporting) and upload local files (import) to a REDCap project.
+As of PyCap 0.7, you can download files in a REDCap project (exporting) and upload local files (import) to a REDCap project. As of PyCap 0.8, you can also delete them.
 
-Note, unlike exporting and importing data, exporting and importing files can only be done for a single record at a time.
+Note, unlike exporting and importing data, exporting/importing/deleting files can only be done for a single record at a time.
 
 Generally, you will be given bytes from the file export method so binary-formatted can be written properly and are expected to pass an open file object for file importing. Of course, you should open a file you wish to import with a well-chosen mode.
 
-{% highlight python %}
+The REDCap API doesn't send any return message for file methods. Therefore, it's important to watch out for `redcap.RedcapError` exceptions that may occur when a request fails on the server. If this isn't thrown, you can assume your request worked.
 
-file_content, headers = project.export_file(record='1', field='file')
-# Note, you may want to change the mode in which you're opening files
-# based on the header['name'] value, but that is completely up to you.
-with open(headers['name'], 'w') as f:
-    f.write(file_content)
+{% highlight python %}
+try:
+    file_content, headers = project.export_file(record='1', field='file')
+except RedcapError:
+    # file_content will actually contain an error message now that might be useful to look at.
+    pass
+else:
+    # Note, you may want to change the mode in which you're opening files
+    # based on the header['name'] value, but that is completely up to you.
+    with open(headers['name'], 'w') as f:
+        f.write(file_content)
 
 
 existing_fname = 'to_upload.pdf'
 fobj = open(existing_fname, 'rb')
 field = 'data_file'
 # In the REDCap UI, the link to download the file will be named the fname you pass
-response = project.import_file(record='1', field=field, fname=existing_fname, fobj=fobj)
-f.close()
-# Generally, the REDCap server will return an emtpy response for successful imports, but its always good to make sure
-assert 'error' not in response
+try:
+    response = project.import_file(record='1', field=field, fname=existing_fname, fobj=fobj)
+except RedcapError:
+    # Your import didn't work
+    pass
+finally:
+    fobj.close()
 
-# Attempting to import a file to a non-file field will raise a ValueError quickly
-project.import_file(record='1', field='numeric_field', fname, fobj)
+# And deleting...
+try:
+    project.delete_file('1', field)
+except RedcapError:
+    # The file wasn't deleted
+    pass
+else:
+    # It's gone
+    pass
+
+# Attempting to do any file-related operation on a non-file field will raise a ValueError quickly
+try:
+    project.import_file(record='1', field='numeric_field', fname, fobj)
+except ValueError:
+    # Bingo
 
 {% endhighlight %}
+
+# Exporting Users
+
+As of PyCap 0.8, you can also export data related to the fellow users of your REDCap project.
+
+{% highlight python %}
+users = project.export_users()
+for user in users:
+    assert 'firstname' in user
+    assert 'lastname' in user
+    assert 'email' in user
+    assert 'username' in user
+    assert 'expiration' in user
+    assert 'data_access_group' in user
+    assert 'data_export' in user
+    assert 'forms' in user
+
+{% endhighlight %}
+
+So each `dict` in the exported `users` list contains the following key, value pairs:
+
+- `firstname`: First name of the user
+- `lastname`: Last name of the user
+- `email`: Email address for the user
+- `username`: The username of the user
+- `expiration`: The user's access expiration date (empty if no expiration)
+- `data_access_group`: Data access group of the user
+- `data_export`: An integer where 0 means they have no access, 2 means they get a De-Identified data, and 1 means they can export the full data set
+- `forms`: A list of `dicts`, each having one key (the form name) and an integer value, where 0 means they have no access, 1 means they can view records/responses and edit records (survey responses are read-only), 2 means they can only read surveys and forms, and 3 means they can edit survey responses as well as forms
+
+You can also specify the `format` argument to `project.export_users` to be `csv` or `xml` and get strings in those respective formats, though `json` is default and will return the decoded objects.
