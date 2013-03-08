@@ -26,6 +26,12 @@ Since REDCap projects are often used to store Personal Health Information (PHI),
 1. **Never share your API key**
 2. **Delete the key (through the web interface) after you're done using it **
 
+### Ignoring SSL Certificates
+
+If you're connecting to a REDCap server whose SSL certificate can't be verified for whatever reason, you can add a `verify_ssl=False` argument in the `Project` constructor and no subsequent API calls to the REDCap server will attempt to verify the certficate.
+
+By default though, the certificate will always be verified. Obviously, use this feature at your own risk.
+
 ## Project Attributes
 
 When creating a `Project` object, PyCap goes ahead and makes some useful API calls and creates these attributes:
