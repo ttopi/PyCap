@@ -26,7 +26,7 @@ Since REDCap projects are often used to store Personal Health Information (PHI),
 1. **Never share your API key**
 2. **Delete the key (through the web interface) after you're done using it **
 
-### Ignoring SSL Certificates
+## Ignoring SSL Certificates
 
 If you're connecting to a REDCap server whose SSL certificate can't be verified for whatever reason, you can add a `verify_ssl=False` argument in the `Project` constructor and no subsequent API calls to the REDCap server will attempt to verify the certficate.
 
@@ -151,7 +151,7 @@ As of PyCap 0.7, you can download files in a REDCap project (exporting) and uplo
 
 Note, unlike exporting and importing data, exporting/importing/deleting files can only be done for a single record at a time.
 
-Generally, you will be given bytes from the file export method so binary-formatted can be written properly and are expected to pass an open file object for file importing. Of course, you should open a file you wish to import with a well-chosen mode.
+Generally, you will be given bytes from the file export method so binary-formatted data can be written properly and you are expected to pass an open file object for file importing. Of course, you should open a file you wish to import with a well-chosen mode.
 
 The REDCap API doesn't send any return message for file methods. Therefore, it's important to watch out for `redcap.RedcapError` exceptions that may occur when a request fails on the server. If this isn't thrown, you can assume your request worked.
 
