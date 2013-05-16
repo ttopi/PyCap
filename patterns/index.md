@@ -32,5 +32,22 @@ metadata_df = project.export_metadata(format='df')
 As of PyCap 0.6.1, you can pass `df_kwargs` a dictionary to alter the construction of
 the DataFrame. This dict is fed into the [pandas.read_csv][csv] method.
 
+## Exporting Data From Longitudinal Projects
+
+If you're exporting records from longitudinal projects as a `DataFrame`, (as of `0.8.1`) `PyCap` will by default create a hierarchical index from the unique field and `redcap_event_name`. This should allow for easier slicing/dicing.
+
+## Importing DataFrames
+
+The `pandas.DataFrame` makes it really easy to apply functions across columns or records. If you export a `DataFrame` and compute new columns, it's a pain to convert it back to a list of `dict` to import back into the `Project`. As of `0.8.1`, you can pass a `DataFrame` to `Project.import_records`!
+
+{% highlight python %}
+from my_module import awesome_function
+
+df = project.export_records(format='df')
+df['computed_field'] = df.apply(awesome_function, axis=1)
+response = project.import_records(df)
+
+{% endhighlight %}
+
 [pd]: http://pandas.pydata.org/
 [csv]: http://pandas.pydata.org/pandas-docs/stable/generated/pandas.io.parsers.read_csv.html#pandas.io.parsers.read_csv
