@@ -228,3 +228,20 @@ So each `dict` in the exported `users` list contains the following key, value pa
 - `forms`: A list of `dicts`, each having one key (the form name) and an integer value, where 0 means they have no access, 1 means they can view records/responses and edit records (survey responses are read-only), 2 means they can only read surveys and forms, and 3 means they can edit survey responses as well as forms
 
 You can also specify the `format` argument to `project.export_users` to be `csv` or `xml` and get strings in those respective formats, though `json` is default and will return the decoded objects.
+
+
+# Exporting Form-Event Mappings
+
+Longitudinal projects have a mapping of what forms are available to collect data within for each event. As of `0.8.1` this data can be exported from the `Project`.
+
+{% highlight python %}
+
+fem = project.export_fem()
+# Only ask for particular arms
+subset = project.export_fem(arms=['arm1'])
+
+# You can also get a DataFrame of the FEM
+fem_df = project.export_fem(format='df')
+
+{% endhighlight %}
+
