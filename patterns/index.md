@@ -2,6 +2,10 @@
 layout: default
 ---
 
+# Docs have moved
+
+The canonical docs for this project can be found on [readthedocs.org](http://pycap.rtfd.org). The pages here will remain but won't be updated.
+
 # Pandas Integration
 
 [Pandas][pd] is a high-performance data analysis library for Python. With just a little prodding, we can create a `pandas.DataFrame` from a `redcap.Project`, indexed by the unique field:

@@ -2,6 +2,11 @@
 layout: default
 ---
 
+# Docs have moved
+
+The canonical docs for this project can be found on [readthedocs.org](http://pycap.rtfd.org). The pages here will remain but won't be updated.
+
+
 # Connecting to Projects
 
 The main class of PyCap is `redcap.Project`. It must be instantiated with the API URL of your REDCap site and a API token.
@@ -244,4 +249,3 @@ subset = project.export_fem(arms=['arm1'])
 fem_df = project.export_fem(format='df')
 
 {% endhighlight %}
-

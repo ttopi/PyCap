@@ -3,6 +3,10 @@ title: "PyCap: Python Interface to Redcap"
 layout: default
 ---
 
+# Docs have moved
+
+The canonical docs for this project can be found on [readthedocs.org](http://pycap.rtfd.org)
+
 PyCap (*Python and REDCap*) is a simple library for communicating with [REDCap][r] projects from Python applications.  It mimics the REDCap API as much as possible and is designed to be very easy to use.
 
 ## Getting started
