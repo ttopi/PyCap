@@ -1,5 +1,4 @@
-**I am no longer actively developing this code base.
-Please continue to submit bugs and I'll do my best to tackle them.**
+**I am no longer actively developing this code base. Please continue to submit bugs and I'll do my best to tackle them.**
 
 .. image:: https://travis-ci.org/redcap-tools/PyCap.svg?branch=master
     :target: https://travis-ci.org/redcap-tools/PyCap
